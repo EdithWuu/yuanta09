@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="description" content="幸福職場 Life at Yuanta 集團員工健康福祉事項說明" />
-  <title>幸福職場 Life at Yuanta｜集團員工健康福祉事項說明</title>
+  <meta name="description" content="幸福職場 Well-being at Yuanta 集團員工健康福祉事項說明" />
+  <title>幸福職場 Well-being at Yuanta｜集團員工健康福祉事項說明</title>
   <style>
     :root {
       --bg-cream: #FFF5F8;
@@ -407,6 +407,9 @@
       transform: translateY(12px);
       text-align: center;
       padding: 24px 10px;
+      display: grid;
+      place-items: center;
+      justify-items: center;
     }
 
     .benefit-scene-intro.show {
@@ -457,6 +460,58 @@
     .benefit-scene-detail .modal-note img {
       display: block;
       margin-top: 18px !important;
+    }
+
+    /* 福利詳細說明：段落與條列統一 */
+    .benefit-detail-paragraph {
+      margin: 0 0 10px;
+      line-height: 1.9;
+    }
+
+    .benefit-detail-section-title {
+      margin: 18px 0 8px;
+      color: var(--blue-dark);
+      font-weight: 800;
+      line-height: 1.7;
+    }
+
+    .benefit-detail-spacer {
+      height: 6px;
+    }
+
+    .benefit-bullet-item {
+      display: grid;
+      grid-template-columns: 14px minmax(0, 1fr);
+      column-gap: 7px;
+      align-items: start;
+      margin: 5px 0;
+      line-height: 1.8;
+    }
+
+    .benefit-bullet-marker {
+      font-size: 12px;
+      line-height: 1.8;
+      text-align: center;
+      color: var(--blue-dark);
+      font-weight: 800;
+    }
+
+    .benefit-bullet-text {
+      min-width: 0;
+      text-align: left;
+    }
+
+    .benefit-modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: nowrap;
+    }
+
+    .benefit-modal-actions .secondary-btn {
+      flex: 1 1 0;
+      min-width: 0;
+      max-width: 220px;
     }
 
     .contact-card {
@@ -555,6 +610,9 @@
       .benefit-scene-intro { padding: 18px 4px; }
       .contact-card { padding: 16px 14px; }
       .contact-row { font-size: 13.5px; }
+      .benefit-modal-actions { gap: 8px; }
+      .benefit-modal-actions .secondary-btn { padding: 0 12px; font-size: 13px; }
+      .benefit-bullet-item { grid-template-columns: 12px minmax(0, 1fr); column-gap: 6px; }
     }
 
     /* =========================================
@@ -606,7 +664,7 @@
   <header class="topbar">
     <div class="brand">
       <img src="yuanta_logo.png" alt="元大標誌" class="brand-logo" />
-      <div><strong>幸福職場</strong><span>Life at Yuanta｜集團員工健康福祉事項說明</span></div>
+      <div><strong>幸福職場</strong><span>Well-being at Yuanta｜集團員工健康福祉事項說明</span></div>
     </div>
 
     <div class="topbar-search" id="topbarSearch" style="display: none;">
@@ -632,7 +690,7 @@
     <section class="screen cover active" id="coverScreen">
       <div class="cover-inner">
         <div class="cover-content">
-          <div class="cover-kicker">Life at Yuanta</div>
+          <div class="cover-kicker">Well-being at Yuanta</div>
           <h1 id="greetingHeading">優於法令的健康福祉措施</h1>
           <p>元大持續打造優於法令之福利制度，涵蓋健康促進、心理支持、生產育兒、家庭照顧及退休關懷等面向，陪伴同仁在人生各階段獲得更完善的支持</p>
           
@@ -733,15 +791,7 @@
         </div>
         
         <div id="resourceContainer"></div>
-
-        <div class="hr-support-card">
-          <div class="hr-support-text">
-            <h4>對各項福利規定有任何疑問，或需要專人協助嗎？</h4>
-            <p>隨時拿起電話，人資夥伴一直都在，幫你釐清最適合的方案。</p>
-          </div>
-        <div style="padding: 12px 24px; border-radius: 999px; background: #FFF5F8; color: var(--accent-warm); font-size: 14px; font-weight: 800; border: 1.5px solid rgba(243, 152, 0, 0.3);">金控人力資源部行政管理組</div>        </div>
-
-        <div class="result-actions">
+<div class="result-actions">
           <button class="secondary-btn" id="retryCategoryBtn" type="button" hidden>選擇其他構面</button>
           <button class="secondary-btn" id="otherMomentBtn" type="button">看其他福利主題</button>
         </div>
@@ -763,8 +813,9 @@
           <div class="contact-card-title">聯絡窗口</div>
           <div class="contact-card-body" id="contactCardBody"></div>
         </div>
-        <div class="modal-actions">
-          <button class="secondary-btn" id="closeModalBtn" type="button">查看下一項福利</button>
+        <div class="modal-actions benefit-modal-actions">
+          <button class="secondary-btn" id="closeModalBtn" type="button">關閉</button>
+          <button class="secondary-btn" id="nextBenefitBtn" type="button">查看下一項福利</button>
         </div>
       </div>
     </div>
@@ -1058,7 +1109,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
-  // ★ 2. 福利內容依「幸福職場 Life at Yuanta 集團員工健康福祉事項說明」重新編排：三大主題直接帶福利項目
+  // ★ 2. 福利內容依「幸福職場 Well-being at Yuanta 集團員工健康福祉事項說明」重新編排：三大主題直接帶福利項目
   const welfareData = {
     'stage_01': {
       all: [
@@ -1070,18 +1121,18 @@ window.addEventListener('DOMContentLoaded', () => {
     'stage_02': {
       all: [
         ['員工家庭與生活照護', '生日禮金', '公司誠摯祝福您生日快樂', '職工本人生日禮金補助 NTD.1,000 元。'],
-        ['員工家庭與生活照護', '三節禮金', '在重要的日子傳遞溫暖與祝福', '公司有盈餘時，於三節發放禮金，表達公司對員工的感謝與關懷，分享節慶喜悅。'],
+        ['員工家庭與生活照護', '三節禮金', '在重要的日子傳遞溫暖與祝福', '公司於有盈餘時發放三節禮金，職工福利委員會亦依規定另行發放，讓每逢佳節多一份喜悅與期待'],
         ['員工家庭與生活照護', '婚喪喜慶補助', '支持您生活的重要時刻', '職工本人結婚可獲補助 NTD.3,000 元；職工本人死亡補助喪葬費 NTD.50,000 元、配偶死亡補助 NTD.10,000 元、父母或子女死亡補助 NTD.2,000 元。'],
         ['員工家庭與生活照護', '急難救助慰問金', '守護您的安心生活', '職工本人家庭遭遇急難例如風、水、火、震等重大災害，由本會派員勘查屬實，按受損程度及其項目，簽報主任委員核定後，給予補助，但補助金額最高不得超過 NTD.100,000 元，並得應職工要求，協助其洽本會指定銀行申辦急難救助貸款。'],
         ['員工家庭與生活照護', '子女教育獎助金', '肯定孩子的卓越表現', '職工子女獎學金支給暨補助標準如下：<br><span class="detail-bullet">●</span>大學院校學業成績平均 60 分以上，操行成績乙等或 70 分以上 NTD.3,000 元。<br><span class="detail-bullet">●</span>五專四、五年級、二專學業成績平均 60 分以上，操行成績乙等或 70 分以上 NTD.2,500 元。高中職（含五專一至三年級）學業成績平均 60 分以上 NTD.2,000 元。<br><span class="detail-bullet">●</span>國中學業成績平均乙等或 60 分以上 NTD.1,500 元。<br><span class="detail-bullet">●</span>小學學業成績平均乙等或 60 分以上 NTD.1,000 元。<br>申請期間上學期：二月至四月，下學期：八月至十月。職工本人及配偶同在本公司服務並均符合資格者，皆可申請。職工本人進修就讀教育主管機關立案之學校者，其學業及操行成績達本會職工子女獎學金支給標準者，得申請獎學金。'],
         ['員工家庭與生活照護', '生育補助', '迎接新生命的喜悅，元大陪您一起準備', '職工本人或配偶生育時，可申請 NTD.15,000 元生育補助（本人生育加計保險金共新台幣 20000 元）；若夫妻雙方皆為元大員工，雙方皆可申請。另享團體保險生育保險金 NTD.5,000 元，女性同仁每胎最高可獲 NTD.20,000 元補助，陪伴您安心迎接家庭新成員。'],
         ['員工家庭與生活照護', '安胎休養假', '讓準媽媽能安心養胎，專心照顧自己', '懷孕員工如有安胎需求，可依規定申請安胎休養假，減輕孕期壓力與身體負擔，讓準媽媽能安心調養身心，迎接新生命的到來。'],
-        ['員工家庭與生活照護', '產假', '給自己更多恢復時間，也給寶寶更多陪伴', '提供十周產假，優於法令規定，協助同仁兼顧產後身體恢復與新生兒照顧需求，從容迎接人生的重要新篇章。'],
+        ['員工家庭與生活照護', '產假', '給自己更多恢復時間，也給寶寶更多陪伴', '提供10周產假，優於法令規定，協助同仁兼顧產後身體恢復與新生兒照顧需求，從容迎接人生的重要新篇章。'],
         ['員工家庭與生活照護', '流產假', '在人生需要被照顧的時刻，提供溫暖支持', '妊娠未滿2個月流產提供7日支薪假；妊娠2個月以上未滿3個月流產提供9日支薪假，協助同仁安心休養，照顧身心健康。'],
         ['員工家庭與生活照護', '產檢假', '重要的每一次檢查，都值得被充分支持', '提供8日產檢假，讓準媽媽能安心完成孕期各項檢查，守護自己與寶寶的健康。'],
         ['員工家庭與生活照護', '陪產檢及陪產假', '迎接新生命的重要時刻，一起參與不缺席', '提供10日支薪假，可用於陪伴產檢及配偶分娩前後20日內使用，共同參與迎接新生命的重要時刻。'],
         ['員工家庭與生活照護', '哺集乳室', '讓工作與育兒兼顧得更從容', '全國100人以上的辦公據點設置舒適完善的哺集乳室，並持續優化設備與環境，榮獲「優良哺（集）乳室認證」，打造更友善的育兒環境。'],
-        ['員工家庭與生活照護', '托育優惠方案', '減輕育兒負擔，陪伴孩子快樂成長', '與台北市私立格林菲爾托兒所、何嘉仁實業股份有限公司合作企業托育服務，提供員工專屬優惠方案，協助同仁減輕托育費用負擔。'],
+        ['員工家庭與生活照護', '托育優惠方案', '減輕育兒負擔，陪伴孩子快樂成長', '與台北市私立格林菲爾托兒所、何嘉仁實業股份有限公司(全台)合作企業托育服務，提供員工專屬優惠方案，協助同仁減輕托育費用負擔'],
         ['員工家庭與生活照護', '彈性/育嬰留職停薪', '照顧孩子的同時，也能安心規劃職涯', '每位子女可申請最長兩年育嬰留職停薪，其中最長六個月可享平均投保薪資80％之育嬰津貼與補助。申請育嬰留職停薪未滿三十日者，本公司依申請日數核給2成每月固定薪資，並承認其年資，協助同仁兼顧家庭照顧與職涯發展。'],
         ['員工家庭與生活照護', '家庭照顧假', '照顧家人，也是重要的工作', '每年提供7天家庭照顧假，並與事假分開計算，讓員工得以兼顧家庭責任與工作發展。'],
         ['員工家庭與生活照護', '撫卹與眷屬關懷', '讓愛與責任在關鍵時刻獲得延續', '本公司制定《員工退休、撫卹及資遣管理要點》，規範員工退休、撫卹、資遣及職業災害補償等相關事項，包括醫療、薪資、失能及死亡'],
@@ -1090,7 +1141,7 @@ window.addEventListener('DOMContentLoaded', () => {
     },
     'stage_03': {
       all: [
-        ['健康與退休保障', '年度健康檢查', '健康是幸福生活最重要的基礎', '每年一次提供優於法令規定之健康檢查，協助員工掌握健康状况，及早預防疾病，守護身心健康。'],
+        ['健康與退休保障', '年度健康檢查', '健康是幸福生活最重要的基礎', '每年一次提供優於法令規定之健康檢查，協助員工掌握健康狀況，及早預防疾病，守護身心健康。'],
         ['健康與退休保障', '勞保健保團體保險', '打造更完整的人生保障網', '除依法提供勞保、健保等基本社會保險保障外，另提供壽險、意外險、醫療險、癌症險及重大疾病保險等多元保障，並提供眷屬優惠加保方案，協助員工擴大自身及家庭的保障範圍。'],
         ['健康與退休保障', '員工協助方案（EAPs）', '當生活遇到壓力時，您不必獨自面對', '提供心理、情緒、家庭、法律、財務、人際關係及工作適應等專業諮詢服務，包括電話諮詢、電子郵件諮詢及一對一心理諮商，每人每年最高使用六次專業心理諮詢服務，全程保密且免費。<br><span class="detail-bullet">●</span>專線號碼：0800-299-988<br><span class="detail-bullet">●</span>接聽時間為每週一至週五（假日除外）上午 10:00 至晚間 10:00・每通電話諮詢時間為 20 至 25 分鐘，不限次數<br><span class="detail-bullet">●</span>電子信箱：toptipeap@gmail.com<br><span class="detail-bullet">●</span>通訊地址：台北市羅斯福路二段 2 號 4 樓，黃暐超心理師收<br><span class="detail-bullet">●</span>電子郵件於 48 小時內回覆（遇假日順延）<br><span class="detail-bullet">●</span>實體郵件遞送往返時間另計，不限次數<br><span class="detail-bullet">●</span>每人每年最高六次晤談，額度用罄後如遇持續晤談，需採自費方式進行<br><br>另定期提供職場健康相關文章，協助同仁提升心理健康與自我照顧能力。'],
         ['健康與退休保障', '健康講座與職場安全促進', '從日常健康管理到職場照護，陪伴您安心工作、健康生活', '<span class="detail-bullet">●</span>醫師臨場服務：提供醫師健康諮詢與健康管理建議，協助同仁掌握健康狀況、建立良好生活習慣，讓專業健康照護就在身邊。<br><span class="detail-bullet">●</span>母性健康保護計畫：提供孕期、產後及哺乳期間所需之健康關懷與照護資源，陪伴同仁安心度過人生重要階段。<br><span class="detail-bullet">●</span>友善職場講座：定期辦理健康促進、運動保健、家庭關係及生涯發展等多元主題講座，支持同仁持續成長，打造友善且健康的職場環境。'],
@@ -1525,7 +1576,72 @@ window.addEventListener('DOMContentLoaded', () => {
     return r;
   }
 
-  const benefitContacts = {"職涯訓練發展計畫": {"window": "人力資源部"}, "員工進修補助": {"window": "人力資源部"}, "語言與金融證照獎勵": {"window": "人力資源部"}, "生日禮金": {"window": "各公司職工福利委員會"}, "三節禮金": {"window": "各公司職工福利委員會"}, "婚喪喜慶補助": {"window": "各公司職工福利委員會"}, "急難救助慰問金": {"window": "各公司職工福利委員會"}, "子女教育獎助金": {"window": "各公司職工福利委員會"}, "生育補助": {"window": "各公司職工福利委員會", "phone": "0800-088-008", "phone_label": "團體保險申請事宜"}, "安胎休養假": {"window": "人力資源部"}, "產假": {"window": "人力資源部"}, "流產假": {"window": "人力資源部"}, "產檢假": {"window": "人力資源部"}, "陪產檢及陪產假": {"window": "人力資源部"}, "哺集乳室": {"window": "行政管理部"}, "托育優惠方案": {"window": "各公司職工福利委員會"}, "彈性/育嬰留職停薪": {"window": "人力資源部"}, "家庭照顧假": {"window": "人力資源部"}, "撫卹與眷屬關懷": {"window": "人力資源部"}, "孕期友善穿著": {"window": "人力資源部"}, "年度健康檢查": {"window": "行政管理部"}, "勞保健保團體保險": {"window": "人力資源部"}, "員工協助方案（EAPs）": {"window": "人力資源部"}, "健康講座與職場安全促進": {"window": "行政管理部"}, "住院及手術補助": {"window": "各公司職工福利委員會"}, "員工持股信託": {"window": "人力資源部"}, "薪轉及外幣優惠": {"window": "元大銀行"}, "員工優惠貸款利率": {"window": "各元大銀行個金區域中心"}};
+
+  function ensureChinesePeriod(htmlLine) {
+    const probe = document.createElement('div');
+    probe.innerHTML = htmlLine;
+    const visibleText = (probe.textContent || '').trim();
+    if (!visibleText) return htmlLine;
+    if (visibleText.endsWith('。')) return htmlLine;
+    return `${htmlLine}。`;
+  }
+
+  function formatBenefitDetail(rawHtml) {
+    if (!rawHtml) return '';
+
+    let normalized = rawHtml
+      .replace(/<span class="detail-bullet">●<\/span>/g, '• ')
+      .replace(/(^|<br\s*\/?>)\s*●\s*/gi, '$1• ')
+      .replace(/(^|<br\s*\/?>)\s*-\s*/gi, '$1• ');
+
+    const lines = normalized.split(/<br\s*\/?>/i);
+    const rendered = [];
+
+    lines.forEach((originalLine) => {
+      let line = originalLine.trim();
+
+      if (!line) {
+        rendered.push('<div class="benefit-detail-spacer"></div>');
+        return;
+      }
+
+      // 圖片不加句號
+      const probe = document.createElement('div');
+      probe.innerHTML = line;
+      const visibleText = (probe.textContent || '').trim();
+      const hasImage = !!probe.querySelector('img');
+      if (hasImage && !visibleText) {
+        rendered.push(line);
+        return;
+      }
+
+      // 內文中的小標題視為標題，不加句號
+      if (/^<strong>.*<\/strong>$/i.test(line)) {
+        rendered.push(`<div class="benefit-detail-section-title">${line}</div>`);
+        return;
+      }
+
+      // 所有條列統一為實心圓點 •
+      if (/^•\s*/.test(line)) {
+        line = line.replace(/^•\s*/, '');
+        line = ensureChinesePeriod(line);
+        rendered.push(
+          `<div class="benefit-bullet-item">` +
+            `<span class="benefit-bullet-marker">•</span>` +
+            `<span class="benefit-bullet-text">${line}</span>` +
+          `</div>`
+        );
+        return;
+      }
+
+      line = ensureChinesePeriod(line);
+      rendered.push(`<div class="benefit-detail-paragraph">${line}</div>`);
+    });
+
+    return rendered.join('');
+  }
+
+  const benefitContacts = {"職涯訓練發展計畫": {"window": "人力資源部或人資權責單位"}, "員工進修補助": {"window": "人力資源部或人資權責單位"}, "語言與金融證照獎勵": {"window": "人力資源部或人資權責單位"}, "生日禮金": {"window": "各公司職工福利委員會"}, "三節禮金": {"window": "各公司職工福利委員會、人力資源部或人資權責單位"}, "婚喪喜慶補助": {"window": "各公司職工福利委員會"}, "急難救助慰問金": {"window": "各公司職工福利委員會"}, "子女教育獎助金": {"window": "各公司職工福利委員會"}, "生育補助": {"window": "各公司職工福利委員會", "phone": "0800-088-008", "phone_label": "團體保險申請事宜"}, "安胎休養假": {"window": "人力資源部或人資權責單位"}, "產假": {"window": "人力資源部或人資權責單位"}, "流產假": {"window": "人力資源部或人資權責單位"}, "產檢假": {"window": "人力資源部或人資權責單位"}, "陪產檢及陪產假": {"window": "人力資源部或人資權責單位"}, "哺集乳室": {"window": "行政管理部"}, "托育優惠方案": {"window": "各公司職工福利委員會"}, "彈性/育嬰留職停薪": {"window": "人力資源部或人資權責單位"}, "家庭照顧假": {"window": "人力資源部或人資權責單位"}, "撫卹與眷屬關懷": {"window": "人力資源部或人資權責單位"}, "孕期友善穿著": {"window": "人力資源部或人資權責單位"}, "年度健康檢查": {"window": "行政管理部、人力資源部或人資權責單位"}, "勞保健保團體保險": {"window": "人力資源部或人資權責單位"}, "員工協助方案（EAPs）": {"window": "人力資源部或人資權責單位"}, "健康講座與職場安全促進": {"window": "行政管理部"}, "住院及手術補助": {"window": "各公司職工福利委員會"}, "員工持股信託": {"window": "人力資源部或人資權責單位"}, "薪轉及外幣優惠": {"window": "元大銀行"}, "員工優惠貸款利率": {"window": "元大銀行個金各區域中心"}};
 
   function renderContactCard(itemTitle) {
     const card = document.getElementById('contactCard');
@@ -1602,6 +1718,23 @@ window.addEventListener('DOMContentLoaded', () => {
     if (card) card.hidden = true;
   }
 
+
+  function getAllBenefitsInOrder() {
+    const orderedStageIds = ['stage_01', 'stage_02', 'stage_03'];
+    const ordered = [];
+
+    orderedStageIds.forEach((stageId) => {
+      const stageData = welfareData[stageId];
+      if (!stageData) return;
+      const items = stageData.all || [];
+      items.forEach((item) => ordered.push(item));
+    });
+
+    return ordered;
+  }
+
+  let currentBenefitIndex = -1;
+
   function openModal(item) {
     SoundFX.playDing();
     clearBenefitSceneTimers();
@@ -1615,9 +1748,16 @@ window.addEventListener('DOMContentLoaded', () => {
     const detailScene = document.getElementById('benefitDetailScene');
 
     if (t) t.textContent = item[1];
-    if (txt) txt.innerHTML = item[2] ? `${item[2]}` : '了解這項專屬福利，讓元大陪伴您的每一個重要時刻。';
-    if (note) note.innerHTML = `${item[3]}`;
+    if (txt) txt.innerHTML = item[2] ? `${item[2]}` : '了解這項專屬福利，讓元大陪伴您的每一個重要時刻';
+    if (note) note.innerHTML = formatBenefitDetail(item[3]);
     renderContactCard(item[1]);
+
+    const orderedBenefits = getAllBenefitsInOrder();
+    currentBenefitIndex = orderedBenefits.findIndex((benefit) => benefit[1] === item[1]);
+    const nextBtn = document.getElementById('nextBenefitBtn');
+    if (nextBtn) {
+      nextBtn.hidden = currentBenefitIndex < 0 || currentBenefitIndex >= orderedBenefits.length - 1;
+    }
 
     if (backdrop) backdrop.classList.add('open');
 
@@ -1626,7 +1766,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (introScene) introScene.classList.add('show');
     });
 
-    // 前言完整顯示後停留約 1.5 秒，再淡出
+    // 前言完整顯示後停留約 0.5 秒，再淡出
     benefitSceneTimer = setTimeout(() => {
       if (introScene) {
         introScene.classList.remove('show');
@@ -1637,7 +1777,7 @@ window.addEventListener('DOMContentLoaded', () => {
       benefitDetailTimer = setTimeout(() => {
         if (detailScene) detailScene.classList.add('show');
       }, 520);
-    }, 1550);
+    }, 1050);
   }
 
   const beginBtn = document.getElementById('beginBtn');
@@ -1645,6 +1785,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const retryCatBtn = document.getElementById('retryCategoryBtn');
   const otherMomBtn = document.getElementById('otherMomentBtn');
   const closeModalBtn = document.getElementById('closeModalBtn');
+  const nextBenefitBtn = document.getElementById('nextBenefitBtn');
   const modalBackdrop = document.getElementById('modalBackdrop');
 
   if (beginBtn) beginBtn.addEventListener('click', () => {
@@ -1679,6 +1820,17 @@ window.addEventListener('DOMContentLoaded', () => {
       clearBenefitSceneTimers();
       resetBenefitModalScenes();
       if (modalBackdrop) modalBackdrop.classList.remove('open');
+    });
+  }
+
+  if (nextBenefitBtn) {
+    nextBenefitBtn.addEventListener('click', () => {
+      SoundFX.playClick();
+      const orderedBenefits = getAllBenefitsInOrder();
+      const nextIndex = currentBenefitIndex + 1;
+      if (nextIndex >= 0 && nextIndex < orderedBenefits.length) {
+        openModal(orderedBenefits[nextIndex]);
+      }
     });
   }
   if (modalBackdrop) {
